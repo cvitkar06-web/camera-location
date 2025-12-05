@@ -1,0 +1,45 @@
+camera-location<!DOCTYPE html>
+<html>
+<head>
+  <title>Camera & Location Permission</title>
+</head>
+<body>
+  <h2>Camera Permission</h2>
+  <button onclick="openCamera()">Open Camera</button>
+
+  <h2>Location Permission</h2>
+  <button onclick="getLocation()">Get Location</button>
+
+  <p id="locationOutput"></p>
+
+  <script>
+    function openCamera() {
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          alert("Camera access granted!");
+        })
+        .catch(error => {
+          alert("Camera blocked: " + error);
+        });
+    }
+
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+      } else {
+        alert("Your device doesn't support location.");
+      }
+    }
+
+    function showPosition(position) {
+      document.getElementById("locationOutput").innerHTML =
+        "Latitude: " + position.coords.latitude +
+        "<br>Longitude: " + position.coords.longitude;
+    }
+
+    function showError(error) {
+      alert("Location error: " + error.message);
+    }
+  </script>
+</body>
+</html>
