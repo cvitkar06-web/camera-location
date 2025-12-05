@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Camera & Location (Consent required)</title>
+</head>
+<body>
+  <h2>Camera aur Location access (Consent chahiye)</h2>
+  <button id="btn">Start</button>
+  <p id="out"></p>
+  <video id="cam" autoplay playsinline width="300"></video>
+
+  <script>
+    const o = document.getElementById("out");
+    const cam = document.getElementById("cam");
+
+    document.getElementById("btn").onclick = async () => {
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          o.innerText = `Lat: ${pos.coords.latitude}, Lon: ${pos.coords.longitude}`;
+        },
+        err => {
+          o.innerText = "Location error: " + err.message;
+        }
+      );
+
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video:true });
+        cam.srcObject = stream;
+      } catch (e) {
+        o.innerText += "\nCamera error: " + e.message;
+      }
+    };
+  </script>
+</body>
+</html>
